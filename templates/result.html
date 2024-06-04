@@ -1,12 +1,12 @@
 {% extends "basis.html" %}
 {% block content %}
-<h1>Te voilà âgé-e de {{age}} ans !</h1>
+<h1>Vous voilà âgé-e de {{age}} ans !</h1>
 <img height="512px" src="{{ url_for('show_file', filename=filename) }}">
 <form method="POST">
   <div class="mb-3">
     <input type="hidden" name="filename" id="filename" value="{{ filename }}"/>
     <input type="hidden" name="age" id="age" value="{{ age }}"/>
-    <label for="address" class="form-label">Ton adresse email</label>
+    <label for="address" class="form-label">Votre adresse courriel</label>
     <input type="email" id="address" name="address" class="form-control" aria-describedby="emailHelp">
   </div>
   <button id="email" name="email" type="submit" class="btn btn-primary">Envoyer par courriel</button>

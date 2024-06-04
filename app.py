@@ -1,20 +1,13 @@
 import base64
 import os
-import time
 from datetime import datetime
 from email.message import EmailMessage
-from email.mime.application import MIMEApplication
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
-from io import BytesIO
-from os.path import basename
 
 import replicate
 import requests
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash
-from PIL import Image
 from replicate.exceptions import ModelError
 from werkzeug.exceptions import BadRequestKeyError
 import smtplib
@@ -87,8 +80,9 @@ def create_app():
                 fh.write(image_data)
 
             return redirect(url_for("show", filename=filename, age=age))
-
-        return redirect(url_for("upload"))
+        else:
+            flash("Vous n'êtes pas censé-e aller ici (;.", "warning")
+            return redirect(url_for("upload"))
 
     @app.route("/show", methods=["GET"])
     def show():
@@ -96,11 +90,13 @@ def create_app():
             filename = request.args["filename"]
             age = request.args["age"]
         except BadRequestKeyError:
+            flash("Il y a eu un souci avec la photo ou l'âge ; merci de l'indiquer à un-e responsable.", "danger")
             return redirect(url_for("upload"))
 
         if os.path.isfile(os.path.join(app.config["UPLOAD_FOLDER"], filename)):
             return render_template("show.html", filename=filename, age=age)
         else:
+            flash("Il y a eu un souci avec la photo ; merci de l'indiquer à un-e responsable.", "danger")
             return redirect(url_for("upload"))
 
     @app.route("/wait", methods=["GET"])
@@ -109,6 +105,7 @@ def create_app():
             filename = request.args["filename"]
             age = request.args["age"]
         except BadRequestKeyError:
+            flash("Il y a eu un souci avec le fichier ou l'âge ; merci de l'indiquer à un-e responsable.", "danger")
             return redirect(url_for("upload"))
 
         with open(os.path.join(app.config["UPLOAD_FOLDER"], filename), "rb") as img:
@@ -147,10 +144,10 @@ def create_app():
             filename = request.args["filename"]
             age = request.args["age"]
         except BadRequestKeyError:
+            flash("Il y a eu un souci avec le fichier ou l'âge ; merci de l'indiquer à un-e responsable.", "danger")
             return redirect(url_for("upload"))
 
         if request.method == "POST":
-            print(request.form)
             if "reset" in request.form:
                 return redirect(url_for("upload"))
             if "print" in request.form:
@@ -158,24 +155,28 @@ def create_app():
                 if success:
                     flash("Impression en cours !", "success")
                 else:
-                    flash("Problème avec l'impression lol", "danger")
+                    flash("Il y a eu un problème avec l'impression ; merci de l'indiquer à un-e responsable.", "danger")
             elif "email" in request.form:
                 if request.form.get("address", "") == "":
-                    flash("Tu as oublié l'email lol", "warning")
+                    flash("Vous avez oublié d'indiquer une adresse courrielle.", "warning")
                 else:
                     try:
                         send_mail(
                             request.form.get("address", ""),
-                            "lafet",
-                            """on aime la fete ici hihi""",
+                            f"Vous à {age} ans",
+                            f"""Bonjour !
+                            
+                            Vous trouverez en pièce-jointe la photo de vous à {age} ans.
+                            
+                            Une bonne journée !""",
                             os.path.join(app.config["UPLOAD_FOLDER"], filename),
                         )
                         flash("Email envoyé !", "success")
                     except smtplib.SMTPRecipientsRefused as e:
-                        flash("L'adresse email est fausse lol", "warning")
+                        flash("Nous n'avons pas réussi à envoyer le courriel ; est-ce que l'adresse est correcte ?", "warning")
                     except Exception as e:
                         print(e)
-                        flash("Il y a eu un souci déso lol", "danger")
+                        flash("Il y a eu un problème avec le courriel ; merci de l'indiquer à un-e responsable.", "danger")
             else:
                 pass
             return redirect(url_for("result", filename=filename, age=age))

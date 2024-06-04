@@ -49,7 +49,7 @@ Edit the `config.py` file with the following:
 ## Usage
 
 - Start the webapp: `python app.py`
-- Access the webapp: <http://127.0.0.1:5432>
+- Access the webapp: <http://127.0.0.1:5000>
 
 > ⚠️ Note: The first time you use this, the Replicate model may take some time to boot up. It is normal.
 > 

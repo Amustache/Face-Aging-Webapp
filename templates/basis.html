@@ -2,20 +2,8 @@
 <html lang="en" class="h-100">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Hugo 0.84.0">
-  <title>
-    vieux moi ? serieusement ^^ haha on me l avait pas sortie celle la depuis loooongtemps :) demande a mes potes si je
-    suis vieux tu vas voir les reponses que tu vas te prendre XD
-  </title>
-
-  <!-- Bootstrap core CSS -->
+  <title>Face Aging Webapp</title>
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-
-  <meta name="theme-color" content="#7952b3">
-
   <style>
       .bd-placeholder-img {
           font-size: 1.125rem;
@@ -31,8 +19,6 @@
           }
       }
   </style>
-
-  <!-- Custom styles for this template -->
   <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
 </head>
 <body class="d-flex text-center text-white bg-dark">
@@ -50,18 +36,9 @@
   <main class="px-3">
     {% block content %}{% endblock %}
   </main>
-
-  <footer class="mt-auto text-white-50">
-    <p>Red Monkeys SàRL</p>
-  </footer>
+  {% include "footer.html" %}
 </div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous">
-
-</script>
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
 {% block javascript %}{% endblock %}
-
 </body>
 </html>
