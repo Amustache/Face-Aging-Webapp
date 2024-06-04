@@ -13,3 +13,4 @@ SMTP_PASSWORD = "hohoho"
 SMTP_SENDER = "noreply@example.com"
 
 DEBUG = True
+DEMO = False

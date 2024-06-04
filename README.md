@@ -1,6 +1,10 @@
 # Face-Aging-Webapp
 
-Face Aging Webapp, using Flask and Only a Matter of Style
+Face Aging Webapp, using Flask and Only a Matter of Style.
+
+|                    Before                    |                   After                    |
+|:--------------------------------------------:|:------------------------------------------:|
+| ![demo_before](./static/img/demo_before.png) | ![demo_after](./static/img/demo_after.png) |
 
 ## Setup
 
@@ -45,6 +49,8 @@ Edit the `config.py` file with the following:
 - `SMTP_USERNAME`: Your mail server username.
 - `SMTP_PASSWORD`: Your mail server password.
 - `SMTP_SENDER`: What the sender will look like.
+- `DEBUG`: `True` if dev, `False` if prod.
+- `DEMO`: `True` to use a dummy picture, `False` to use the camera.
 
 ## Usage
 

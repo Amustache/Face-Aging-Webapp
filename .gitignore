@@ -5,6 +5,7 @@ static/uploads
 uploads
 *.jpg
 *.png
+!static/img/*
 config.py
 direct_capture.py
 draft.py

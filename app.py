@@ -13,7 +13,7 @@ from werkzeug.exceptions import BadRequestKeyError
 import smtplib
 
 from config import REPLICATE_API_TOKEN, UPLOAD_FOLDER, DEBUG, SECRET_KEY, SMTP_SENDER, SMTP_SERVER, SMTP_PORT, \
-    SMTP_USERNAME, SMTP_PASSWORD
+    SMTP_USERNAME, SMTP_PASSWORD, DEMO
 
 
 def send_mail(send_to, subject, text, files=None):
@@ -60,21 +60,24 @@ def create_app():
 
     @app.route("/", methods=["GET"])
     def upload():
-        return render_template("upload.html")
+        if DEMO:
+            return render_template("upload_demo.html")
+        else:
+            return render_template("upload.html")
 
     @app.route("/capture", methods=["POST"])
     def capture():
         if request.method == 'POST':
-            image_data_url = request.form.get("image")
-            age = request.form.get("age")
+            if DEMO:
+                age = request.form.get("age")
+                with open(os.path.join("static", "img", "demo.jpg"), "rb") as img:
+                    image_data = img.read()
+            else:
+                image_data_url = request.form.get("image")
+                age = request.form.get("age")
+                image_data = base64.b64decode(image_data_url.split(",")[1])
 
-            # Decode the base64 data URL to obtain the image data
-            image_data = base64.b64decode(image_data_url.split(",")[1])
-
-            # Generate a filename with the current date and time
             filename = f"{datetime.now().isoformat().replace(':', '-').split('.')[0]}.png"
-
-            # Save the image in PNG format
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             with open(file_path, "wb") as fh:
                 fh.write(image_data)

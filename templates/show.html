@@ -2,7 +2,9 @@
 {% block content %}
 <h1>Veuillez attendre que la transformation soit réalisée !</h1>
 <p>Note : cela peut prendre jusqu'à 20 secondes.</p>
-<img src="{{ url_for('show_file', filename=filename) }}">
+<div class="d-flex justify-content-center">
+  <img src="{{ url_for('show_file', filename=filename) }}" height="512px">
+</div>
 <div class="spinner-grow text-primary" role="status">
   <span class="sr-only"></span>
 </div>
