@@ -1,0 +1,10 @@
+.idea
+env
+shots
+static/uploads
+uploads
+*.jpg
+*.png
+config.py
+direct_capture.py
+draft.py

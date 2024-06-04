@@ -1,0 +1,13 @@
+{% extends "basis.html" %}
+{% block content %}
+<h1>Veuillez attendre que la transformation soit réalisée !</h1>
+<img src="{{ url_for('show_file', filename=filename) }}">
+{% endblock %}
+{% block javascript %}
+<script>
+    window.addEventListener('load', function () {
+        const url = window.location.origin.concat('{{ url_for("wait", filename=filename, age=age)|safe }}');
+        window.location.href = url;
+    })
+</script>
+{% endblock %}

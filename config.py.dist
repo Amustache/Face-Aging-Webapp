@@ -1,0 +1,15 @@
+import os.path
+
+SECRET_KEY = "hihihi"
+REPLICATE_API_TOKEN = "hahaha"
+
+UPLOAD_FOLDER = os.path.join("static", "uploads")
+ALLOWED_EXTENSIONS = {"png"}
+
+SMTP_SERVER = "smtp.example.com"
+SMTP_PORT = 587
+SMTP_USERNAME = "hehehe"
+SMTP_PASSWORD = "hohoho"
+SMTP_SENDER = "noreply@example.com"
+
+DEBUG = True
